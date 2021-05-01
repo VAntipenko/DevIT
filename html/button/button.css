@@ -1,0 +1,32 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+button {
+  margin: 20px;
+  width: 230px;
+  height: 40px;
+  border-radius: 16px;
+  border: none;
+  letter-spacing: 1px;
+}
+
+.active {
+  background: #2db600;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.disabled {
+  cursor: no-drop;
+  color: #a09492;
+}
+
+.danger {
+  background: red;
+  color: #ffffff;
+}

@@ -1,0 +1,11 @@
+Внести изменения в ветке dev репозитория git@example.com:example/test.git,
+добавив в корень файл Readme.md с текстом ### May be in future и залить их на удаленный репозиторий.
+Напишите набор команд для решения этой задачи с коментариями.
+
+
+git clone git@example.com:example/test.git #Скачиваю репозиторий
+git checkout dev #Перехожу в ветку dev
+echo ### May be in future Readme.md #Создаю файл
+git add Readme.md #Добавляю файл в область подготовки
+git commit -m 'some commit' ./Readme.md #Добавляю файл в локальный репозиторий
+git push origon dev #Пушу изменения на удаленный репозиторий
