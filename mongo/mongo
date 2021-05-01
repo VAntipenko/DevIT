@@ -7,3 +7,9 @@
 #Добавьте новую запись в коллекцию 
     db.posts.insertOne({some data})
 
+#Выведите список авторов и их общее количество like
+    db.posts.distinct('author')#Список авторов
+    db.posts.aggregate([
+        {$match: {}},
+        {$group: {like: {$sum: "like"}}}
+    ])
