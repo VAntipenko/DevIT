@@ -25,4 +25,4 @@ const array_unique = (arr) => {
   return result;
 };
 
-array_unique(testData.concat(testData2));
+console.log(array_unique(testData.concat(testData2)));
