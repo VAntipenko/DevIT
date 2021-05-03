@@ -40,51 +40,67 @@ let testData4 = [
 
 const checkType = (data) => {
   const getType = toString.call(data).toLowerCase().slice(8, -1);
+  if (
+    getType === "string" ||
+    getType === "boolean" ||
+    getType === "undefined" ||
+    getType === "null" ||
+    getType === "number"
+  ) {
+    return "primitive";
+  }
   return getType;
 };
 
 const array_normalize = (arr, shema, transform) => {
   const shemaMap = {
-    float: function (data) {
-      return parseFloat(data);
-    },
-    string: function (data) {
-      const strData = JSON.stringify(data);
-      return strData;
+    float: (data) => parseFloat(data),
+    string: (data) => JSON.stringify(data),
+    number: (data) => Number(data),
+    array: (data) => Array.from(data),
+    object: (data) => {
+      const key = Object.keys(shema)[0];
+      const normalizeData = shemaMap[Object.values(shema)[0]](data[key]);
+      const obj = {
+        [key]: normalizeData,
+      };
+      return obj;
     },
   };
 
   const normalizeMap = {
-    string: function (data) {
+    primitive: (data) => {
       if (
-        checkType(data) === "object" ||
-        checkType(data) === "array" ||
-        checkType(data) === "boolean"
+        typeof data === "object" ||
+        typeof data === "array" ||
+        typeof data === "boolean"
       ) {
         return;
       }
-      return shemaMap.string(data);
+      return shemaMap[shema](data);
     },
 
-    object: function (data) {
+    object: (data) => {
       if (checkType(data) === "object") {
-        const key = Object.keys(shema)[0];
-        const normalizeData = shemaMap[Object.values(shema)[0]](data[key]);
-        const obj = {
-          [key]: normalizeData,
-        };
-        return obj;
+        return shemaMap[checkType(data)](data);
       }
-      return;
+    },
+
+    array: (data) => {
+      if (checkType(data) === "array") {
+        return shemaMap[checkType(data)](data);
+      }
     },
   };
 
   return arr
     .map((item) => {
-      if (checkType(item) === shema && !transform) {
-        return item;
+      if (typeof item === shema && !transform) {
+        const normData = normalizeMap[checkType(shema)](item);
+        return normData;
       }
       if (transform) {
+        console.log(checkType(shema));
         const normData = normalizeMap[checkType(shema)](item);
         return normData;
       }
