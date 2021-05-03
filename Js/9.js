@@ -100,12 +100,11 @@ const array_normalize = (arr, shema, transform) => {
         return normData;
       }
       if (transform) {
-        console.log(checkType(shema));
         const normData = normalizeMap[checkType(shema)](item);
         return normData;
       }
     })
-    .filter((next) => next);
+    .filter((next) => next !== undefined);
 };
 
 console.log(array_normalize(testData4, "string"));
